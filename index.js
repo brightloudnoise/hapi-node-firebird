@@ -1,12 +1,10 @@
 'use strict';
 
 const Hoek = require('hoek');
-let Pg = require('pg');
+const fb = require('node-firebird');
 
 
 const DEFAULTS = {
-    connectionString: undefined,
-    native: false,
     attach: 'onPreHandler',
     detach: 'tail'
 };
@@ -16,34 +14,40 @@ exports.register = function (server, options, next) {
 
     const config = Hoek.applyToDefaults(DEFAULTS, options);
 
-    if (config.native) {
-        Pg = require('pg').native;
-    }
-
     server.ext(config.attach, (request, reply) => {
-
-        Pg.connect(config.connectionString, (err, client, done) => {
+        const pool = fb.pool(5, config);
+        pool.get(function(err, db, done) {
 
             if (err) {
                 reply(err);
+                console.log(err);
                 return;
             }
 
-            request.pg = {
-                client: client,
-                done: done,
-                kill: false
+            request.fb = {
+            db: db,
+            done: done
             };
 
             reply.continue();
+            return;
+
+
         });
     });
 
 
     server.on(config.detach, (request, err) => {
 
-        if (request.pg) {
-            request.pg.done(request.pg.kill);
+        if (err) {
+                reply(err);
+                console.log(err);
+                return;
+            }
+
+        if (request.fb) {
+            // Destroy pool
+            //pool.destroy();
         }
     });
 
