@@ -17,7 +17,7 @@ exports.register = function (server, options, next) {
     server.ext(config.attach, (request, reply) => {
 
         const pool = Fb.pool(5, config);
-        pool.get(function (err, db, done) {
+        pool.get( (err, db, done) => {
 
             if (err) {
                 reply(err);
