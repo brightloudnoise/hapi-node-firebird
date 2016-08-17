@@ -33,9 +33,11 @@
     "proxyquire": "1.x.x"    
   },
   "peerDependencies": {
-    "node-firebird": "0.7.4"
+    "node-firebird": "0.7.4",
+    "hoek": "4.x.x"
   },
   "dependencies": {
+    "node-firebird": "0.7.4",
     "hoek": "4.x.x"
   }
 }
