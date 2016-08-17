@@ -143,8 +143,8 @@ lab.experiment('Firebird Plugin', () => {
                 "host": "localhost",
                 "port": 3050,
                 "database": "/tmp/hapi_node_firebird.fdb",
-                "user": "REPORT",
-                "password": "report"
+                "user": "SYSDBA",
+                "password": "masterkey"
             }
         };
 
