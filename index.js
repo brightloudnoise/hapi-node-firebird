@@ -1,7 +1,7 @@
 'use strict';
 
 const Hoek = require('hoek');
-const fb = require('node-firebird');
+const Fb = require('node-firebird');
 
 
 const DEFAULTS = {
@@ -15,8 +15,9 @@ exports.register = function (server, options, next) {
     const config = Hoek.applyToDefaults(DEFAULTS, options);
 
     server.ext(config.attach, (request, reply) => {
-        const pool = fb.pool(5, config);
-        pool.get(function(err, db, done) {
+
+        const pool = Fb.pool(5, config);
+        pool.get(function (err, db, done) {
 
             if (err) {
                 reply(err);
@@ -24,9 +25,9 @@ exports.register = function (server, options, next) {
                 return;
             }
 
-            request.fb = {
-            db: db,
-            done: done
+            request.Fb = {
+                db: db,
+                done: done
             };
 
             reply.continue();
@@ -40,12 +41,12 @@ exports.register = function (server, options, next) {
     server.on(config.detach, (request, err) => {
 
         if (err) {
-                reply(err);
-                console.log(err);
-                return;
-            }
+            reply(err);
+            console.log(err);
+            return;
+        }
 
-        if (request.fb) {
+        if (request.Fb) {
             // Destroy pool
             //pool.destroy();
         }

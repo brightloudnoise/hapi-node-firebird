@@ -139,12 +139,12 @@ lab.experiment('Firebird Plugin', () => {
         const pluginWithConfig = {
             register: Plugin,
             options: {
-                "maxpool": 5,
-                "host": "localhost",
-                "port": 3050,
-                "database": "/tmp/hapi_node_firebird.fdb",
-                "user": "SYSDBA",
-                "password": "masterkey"
+                'maxpool': 5,
+                'host': 'localhost',
+                'port': 3050,
+                'database': '/tmp/hapi_node_firebird.fdb',
+                'user': 'SYSDBA',
+                'password': 'masterkey'
             }
         };
 
