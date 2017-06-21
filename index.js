@@ -13,10 +13,10 @@ const DEFAULTS = {
 exports.register = function (server, options, next) {
 
     const config = Hoek.applyToDefaults(DEFAULTS, options);
+    const pool = Fb.pool(5, config);
 
     server.ext(config.attach, (request, reply) => {
 
-        const pool = Fb.pool(5, config);
         pool.get( (err, db, done) => {
 
             if (err) {
@@ -26,8 +26,8 @@ exports.register = function (server, options, next) {
             }
 
             request.Fb = {
-                db: db,
-                done: done
+                db,
+                done
             };
 
             reply.continue();
@@ -48,7 +48,8 @@ exports.register = function (server, options, next) {
 
         if (request.Fb) {
             // Destroy pool
-            //pool.destroy();
+            pool.destroy();
+            //console.log('Pool Destroyed');
         }
     });
 
